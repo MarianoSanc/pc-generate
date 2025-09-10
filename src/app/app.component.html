@@ -1,0 +1,840 @@
+<div id="content" class="container content">
+  <div class="toolbar" role="banner">
+    <div class="col-toolbar">
+      <img class="logo" alt="CALPRO" src="assets/logo.png" />
+    </div>
+  </div>
+  <div id="main" class="mt-5" style="margin-top: 100px">
+    <div class="record">
+      <div class="edit" id="opportunity-edit-535" data-scope="Opportunity">
+        <div class="row col-sm-12">
+          <h4>{{ pc | uppercase }}</h4>
+        </div>
+        <div class="row">
+          <div class="left col-md-12">
+            <div class="row">
+              <div class="cell col-sm-6 form-group" data-name="name">
+                <label class="control-label" data-name="name"
+                  ><span class="label-text">Nombre</span></label
+                >
+                <div class="field" data-name="name">
+                  <input
+                    type="text"
+                    class="main-element form-control"
+                    data-name="name"
+                    [(ngModel)]="projectName"
+                  />
+                </div>
+              </div>
+
+              <div class="cell col-sm-6 form-group" data-name="name">
+                <label class="control-label" data-name="name"
+                  ><span class="label-text">Ubicación</span></label
+                >
+                <div class="field" data-name="location">
+                  <input
+                    type="text"
+                    class="main-element form-control"
+                    data-name="name"
+                    [(ngModel)]="location"
+                  />
+                </div>
+              </div>
+
+              <div class="cell col-sm-6 form-group" data-name="stage">
+                <label class="control-label" data-name="stage"
+                  ><span class="label-text">DUT</span></label
+                >
+                <div class="field" data-name="stage">
+                  <select
+                    data-name="DUT"
+                    class="form-control main-element"
+                    [(ngModel)]="dutSelected"
+                  >
+                    <option value="Cable AT" selected>Calibration</option>
+                    <option value="Cable MT">Equipment Sales</option>
+                    <optgroup label="Services">
+                      <option value="Repair">Repair</option>
+                      <option value="Updates Consulting">Updates</option>
+                      <option value="Updates Consulting">Consulting</option>
+                    </optgroup>
+                    <!-- <option value="GIS">GIS</option>
+                    <option value="SF6">SF6</option>
+                    <option value="Aceite">Aceite</option>
+                    <option value="Venta">Venta de equipos</option>
+                    <option value="Calibración">Calibración</option> -->
+                  </select>
+                </div>
+              </div>
+              <div class="cell col-sm-6 form-group" data-name="stage">
+                <label class="control-label" data-name="stage"
+                  ><span class="label-text">Cliente</span></label
+                >
+                <div class="field" data-name="stage">
+                  <select
+                    data-name="CLient"
+                    class="form-control main-element"
+                    id="client"
+                    [(ngModel)]="clientSelected"
+                    (ngModelChange)="contactFilter()"
+                  >
+                    <option *ngFor="let client of clients" [value]="client.id">
+                      {{ client.name | uppercase }}
+                      {{ client.billing_address_city }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="cell col-sm-6 form-group" data-name="stage">
+                <label class="control-label" data-name="stage"
+                  ><span class="label-text">Contacto</span></label
+                >
+                <div class="field" data-name="stage">
+                  <select
+                    data-name="contact"
+                    class="form-control main-element"
+                    id="contact"
+                    [(ngModel)]="contactSelected"
+                  >
+                    <option
+                      value="{{ contact.id }}"
+                      *ngFor="let contact of filteredContacts"
+                    >
+                      {{ contact.first_name | uppercase }}
+                      {{ contact.last_name | uppercase }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="cell col-sm-12 form-group" data-name="name">
+                <label class="control-label" data-name="name"
+                  ><span class="label-text">Descripción</span></label
+                >
+                <div class="field" data-name="name">
+                  <textarea
+                    class="main-element form-control"
+                    data-name="description"
+                    [(ngModel)]="description"
+                    style="width: 700px; height: 200px"
+                  >
+                  </textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--
+          <div class="left col-md-12">
+            <div class="cable-at row mt-1" *ngIf="dutSelected == 'Cable AT'">
+              <div class="d-flex justify-content-between w-100">
+                <div class="cell col-sm-4 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Voltaje Nominal</span></label
+                  >
+                  <div class="field" data-name="stage">
+                    <select
+                      data-name="Voltaje"
+                      class="form-control main-element"
+                      [(ngModel)]="ATVoltajeSelected"
+                    >
+                      <option value="69" selected>69 KV</option>
+                      <option value="115">115 KV</option>
+                      <option value="230">230 KV</option>
+                      <option value="400">400 KV</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="cell col-sm-8 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Ensayos</span></label
+                  >
+                  <div class="field ensayos" data-name="stage">
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="ICOFF"
+                        [(ngModel)]="ICOFF"
+                      />
+                      <label class="" for="ICOFF">CBL-AT-A-IC-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="TAOFF"
+                        [(ngModel)]="TAOFF"
+                      />
+                      <label class="" for="TAOFF">CBL-AT-A-TA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="DPOFF"
+                        [(ngModel)]="DPOFF"
+                      />
+                      <label class="" for="DPOFF">CBL-AT-A-DP-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="DPON"
+                        [(ngModel)]="DPON"
+                      />
+                      <label class="" for="DPON">CBL-AT-A-DP-ON</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="LF"
+                        [(ngModel)]="LF"
+                      />
+                      <label class="" for="LF">CBL-AT-A-LF-OFF</label>
+                    </div>
+
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MICOFF"
+                        [(ngModel)]="MICOFF"
+                      />
+                      <label class="" for="MICOFF">CBL-AT-M-IC-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MTAOFF"
+                        [(ngModel)]="MTAOFF"
+                      />
+                      <label class="" for="MTAOFF">CBL-AT-M-TA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MDPOFF"
+                        [(ngModel)]="MDPOFF"
+                      />
+                      <label class="" for="MDPOFF">CBL-AT-M-DP-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MDPON"
+                        [(ngModel)]="MDPON"
+                      />
+                      <label class="" for="MDPON">CBL-AT-M-DP-ON</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cable-at row mt-1" *ngIf="dutSelected == 'Cable MT'">
+              <div class="d-flex justify-content-between w-100">
+                <div class="cell col-sm-4 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Voltaje Nominal</span></label
+                  >
+                  <div class="field" data-name="stage">
+                    <select
+                      data-name="Voltaje"
+                      class="form-control main-element"
+                    >
+                      <option value="5" selected>5 KV</option>
+                      <option value="15">15 KV</option>
+                      <option value="35">35 KV</option>
+                      <option value="69">69 KV</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="cell col-sm-8 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Ensayos</span></label
+                  >
+                  <div class="field ensayos" data-name="stage">
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="ICOFFM"
+                        [(ngModel)]="ICOFFM"
+                      />
+                      <label class="" for="ICOFFM">CBL-MT-A-IC-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="TAOFFM"
+                        [(ngModel)]="TAOFFM"
+                      />
+                      <label class="" for="TAOFFM">CBL-MT-A-TA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="DPOFFM"
+                        [(ngModel)]="DPOFFM"
+                      />
+                      <label class="" for="DPOFFM">CBL-MT-A-DP-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="DPONM"
+                        [(ngModel)]="DPONM"
+                      />
+                      <label class="" for="DPONM">CBL-MT-A-DP-ON</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="LFM"
+                        [(ngModel)]="LFM"
+                      />
+                      <label class="" for="LFM">CBL-MT-A-LF-OFF</label>
+                    </div>
+
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MICOFFM"
+                        [(ngModel)]="MICOFFM"
+                      />
+                      <label class="" for="MICOFFM">CBL-MT-M-IC-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MTAOFFM"
+                        [(ngModel)]="MTAOFFM"
+                      />
+                      <label class="" for="MTAOFFM">CBL-MT-M-TA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MDPOFFM"
+                        [(ngModel)]="MDPOFFM"
+                      />
+                      <label class="" for="MDPOFFM">CBL-MT-M-DP-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MDPONM"
+                        [(ngModel)]="MDPONM"
+                      />
+                      <label class="" for="MDPONM">CBL-MT-M-DP-ON</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cable-at row mt-1" *ngIf="dutSelected == 'GIS'">
+              <div class="d-flex justify-content-between w-100">
+                <div class="cell col-sm-4 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Voltaje Nominal</span></label
+                  >
+                  <div class="field" data-name="stage">
+                    <select
+                      data-name="Voltaje"
+                      class="form-control main-element"
+                    >
+                      <option value="69" selected>69 KV</option>
+                      <option value="115">115 KV</option>
+                      <option value="230">230 KV</option>
+                      <option value="400">400 KV</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="cell col-sm-8 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Ensayos</span></label
+                  >
+                  <div class="field ensayos" data-name="stage">
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="GISTA"
+                        [(ngModel)]="GISTA"
+                      />
+                      <label class="" for="GISTA">GIS-AT-A-TA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="GISDP"
+                        [(ngModel)]="GISDP"
+                      />
+                      <label class="" for="GISDP">GIS-AT-A-DP-OFF</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cable-at row mt-1" *ngIf="dutSelected == 'SF6'">
+              <div class="d-flex justify-content-between w-100">
+                <div class="cell col-sm-4 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Voltaje Nominal</span></label
+                  >
+                  <div class="field" data-name="stage">
+                    <select
+                      data-name="Voltaje"
+                      class="form-control main-element"
+                    >
+                      <option value="69" selected>69 KV</option>
+                      <option value="115">115 KV</option>
+                      <option value="230">230 KV</option>
+                      <option value="400">400 KV</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="cell col-sm-8 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Ensayos</span></label
+                  >
+                  <div class="field ensayos" data-name="stage">
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="AMSF6OFF"
+                        [(ngModel)]="AMSF6OFF"
+                      />
+                      <label class="" for="AMSF6OFF">GIS-AT-A-MSF6-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MMSF6OFF"
+                        [(ngModel)]="MMSF6OFF"
+                      />
+                      <label class="" for="MMSF6OFF">GIS-AT-M-MSF6-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="AASF6OFF"
+                        [(ngModel)]="AASF6OFF"
+                      />
+                      <label class="" for="AASF6OFF">GIS-AT-A-ASF6-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MASF6OFF"
+                        [(ngModel)]="MASF6OFF"
+                      />
+                      <label class="" for="MASF6OFF">GIS-AT-M-ASF6-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MDSF6OFF"
+                        [(ngModel)]="MDSF6OFF"
+                      />
+                      <label class="" for="MDSF6OFF">GIS-AT-M-DSF6-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MDSF6ON"
+                        [(ngModel)]="MDSF6ON"
+                      />
+                      <label class="" for="MDSF6ON">GIS-AT-M-DSF6-ON</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="ADSF6OFF"
+                        [(ngModel)]="ADSF6OFF"
+                      />
+                      <label class="" for="ADSF6OFF">GIS-AT-A-DSF6-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="ADSF6ON"
+                        [(ngModel)]="ADSF6ON"
+                      />
+                      <label class="" for="ADSF6ON">GIS-AT-A-DSF6-ON</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="AFSF6OFF"
+                        [(ngModel)]="AFSF6OFF"
+                      />
+                      <label class="" for="AFSF6OFF">GIS-AT-A-FSF6-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="MFSF6OFF"
+                        [(ngModel)]="MFSF6OFF"
+                      />
+                      <label class="" for="MFSF6OFF">GIS-AT-M-FSF6-OFF</label>
+                    </div>
+
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="INTAMSF6OFF"
+                        [(ngModel)]="INTAMSF6OFF"
+                      />
+                      <label class="" for="INTAMSF6OFF"
+                        >INT-AT-A-MSF6-OFF</label
+                      >
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="INTMMSF6OFF"
+                        [(ngModel)]="INTMMSF6OFF"
+                      />
+                      <label class="" for="INTMMSF6OFF"
+                        >INT-AT-M-MSF6-OFF</label
+                      >
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="INTAASF6OFF"
+                        [(ngModel)]="INTAASF6OFF"
+                      />
+                      <label class="" for="INTAASF6OFF"
+                        >INT-AT-A-ASF6-OFF</label
+                      >
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="INTMASF6OFF"
+                        [(ngModel)]="INTMASF6OFF"
+                      />
+                      <label class="" for="INTMASF6OFF"
+                        >INT-AT-M-ASF6-OFF</label
+                      >
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="INTMDSF6OFF"
+                        [(ngModel)]="INTMDSF6OFF"
+                      />
+                      <label class="" for="INTMDSF6OFF"
+                        >INT-AT-M-DSF6-OFF</label
+                      >
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="INTADSF6OFF"
+                        [(ngModel)]="INTADSF6OFF"
+                      />
+                      <label class="" for="INTADSF6OFF"
+                        >INT-AT-A-DSF6-OFF</label
+                      >
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="INTAFSF6OFF"
+                        [(ngModel)]="INTAFSF6OFF"
+                      />
+                      <label class="" for="INTAFSF6OFF"
+                        >INT-AT-A-FSF6-OFF</label
+                      >
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="INTMFSF6OFF"
+                        [(ngModel)]="INTMFSF6OFF"
+                      />
+                      <label class="" for="INTMFSF6OFF"
+                        >INT-AT-M-FSF6-OFF</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cable-at row mt-1" *ngIf="dutSelected == 'Aceite'">
+              <div class="d-flex justify-content-between w-100">
+                <div class="cell col-sm-4 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Voltaje Nominal</span></label
+                  >
+                  <div class="field" data-name="stage">
+                    <select
+                      data-name="Voltaje"
+                      class="form-control main-element"
+                    >
+                      <option value="69" selected>69 KV</option>
+                      <option value="115">115 KV</option>
+                      <option value="230">230 KV</option>
+                      <option value="400">400 KV</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="cell col-sm-8 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Ensayos</span></label
+                  >
+                  <div class="field ensayos" data-name="stage">
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="TRFAPAOFF"
+                        [(ngModel)]="TRFAPAOFF"
+                      />
+                      <label class="" for="TRFAPAOFF">TRF-AT-A-PA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="TRFMPAOFF"
+                        [(ngModel)]="TRFMPAOFF"
+                      />
+                      <label class="" for="TRFMPAOFF">TRF-AT-M-PA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="TRFMPAON"
+                        [(ngModel)]="TRFMPAON"
+                      />
+                      <label class="" for="TRFMPAON">TRF-AT-M-PA-ON</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="TRFMRAOFF"
+                        [(ngModel)]="TRFMRAOFF"
+                      />
+                      <label class="" for="TRFMRAOFF">TRF-AT-M-RA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="TRFMRAON"
+                        [(ngModel)]="TRFMRAON"
+                      />
+                      <label class="" for="TRFMRAON">TRF-AT-M-RA-ON</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cable-at row mt-1" *ngIf="dutSelected == 'Venta'">
+              <div class="d-flex justify-content-between w-100">
+                <div class="cell col-sm-4 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Voltaje Nominal</span></label
+                  >
+                  <div class="field" data-name="stage">
+                    <select
+                      data-name="Voltaje"
+                      class="form-control main-element"
+                      [(ngModel)]="ATVoltajeSelected"
+                    >
+                      <option value="5" selected>5 KV</option>
+                      <option value="15">15 KV</option>
+                      <option value="35">35 KV</option>
+                      <option value="69">69 KV</option>
+                      <option value="115">115 KV</option>
+                      <option value="230">230 KV</option>
+                      <option value="400">400 KV</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="cell col-sm-8 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Ensayos</span></label
+                  >
+                  <div class="field ensayos" data-name="stage">
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="EQPMTRTA"
+                        [(ngModel)]="EQPMTRTA"
+                      />
+                      <label class="" for="EQPMTRTA">EQP-MT-S-RTA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="EQPATRTA"
+                        [(ngModel)]="EQPATRTA"
+                      />
+                      <label class="" for="EQPATRTA">EQP-AT-S-RTA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="EQPMTMTO"
+                        [(ngModel)]="EQPMTMTO"
+                      />
+                      <label class="" for="EQPMTMTO">EQP-MT-S-MTO-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="EQPATMTO"
+                        [(ngModel)]="EQPATMTO"
+                      />
+                      <label class="" for="EQPATMTO">EQP-AT-S-MTO-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="EQPMTVTA"
+                        [(ngModel)]="EQPMTVTA"
+                      />
+                      <label class="" for="EQPMTVTA">EQP-MT-S-VTA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="EQPATVTA"
+                        [(ngModel)]="EQPATVTA"
+                      />
+                      <label class="" for="EQPATVTA">EQP-AT-S-VTA-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="EQPMTCAP"
+                        [(ngModel)]="EQPMTCAP"
+                      />
+                      <label class="" for="EQPMTCAP">EQP-MT-S-CAP-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="EQPATCAP"
+                        [(ngModel)]="EQPATCAP"
+                      />
+                      <label class="" for="EQPATCAP">EQP-AT-S-CAP-OFF</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cable-at row mt-1" *ngIf="dutSelected == 'Calibración'">
+              <div class="d-flex justify-content-between w-100">
+                <div class="cell col-sm-4 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Voltaje Nominal</span></label
+                  >
+                  <div class="field" data-name="stage">
+                    <select
+                      data-name="Voltaje"
+                      class="form-control main-element"
+                      [(ngModel)]="ATVoltajeSelected"
+                    >
+                      <option value="69" selected>69 KV</option>
+                      <option value="115">115 KV</option>
+                      <option value="230">230 KV</option>
+                      <option value="400">400 KV</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="cell col-sm-8 form-group" data-name="stage">
+                  <label class="control-label" data-name="stage"
+                    ><span class="label-text">Ensayos</span></label
+                  >
+                  <div class="field ensayos" data-name="stage">
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="EQPMTCAL"
+                        [(ngModel)]="EQPMTCAL"
+                      />
+                      <label class="" for="EQPMTCAL">EQP-MT-S-CAL-OFF</label>
+                    </div>
+                    <div class="form-check ensayo">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="EQPATCAL"
+                        [(ngModel)]="EQPATCAL"
+                      />
+                      <label class="" for="EQPATCAL">EQP-AT-S-CAL-OFF</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        -->
+          <div class="d-flex justify-content-end col-md-12">
+            <button
+              (click)="onSubmit()"
+              class="btn btn-primary"
+              [disabled]="
+                projectName == undefined ||
+                projectName == '' ||
+                contactSelected == undefined
+              "
+            >
+              Crear proyecto
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner></ngx-spinner>
+<router-outlet></router-outlet>
